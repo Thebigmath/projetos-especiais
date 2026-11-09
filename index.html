@@ -3,269 +3,314 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Premium — Hub Engineer</title>
+  <title>Royal Stone — Crachá Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #030710;
-      --blue: #7fc8ff;
-      --purple: #a78bfa;
-      --gold: #facc15;
-      --text: #e2e8f0;
-      --muted: #6b8299;
-      --dim: #4a6278;
-      --dimmer: #3d4f63;
-      --success: #4ade80;
+      --black: #000000;
+      --surface: #121212;
+      --surface-2: #1a1a1a;
+      --line: #262626;
+      --line-soft: #1f1f1f;
+      --yellow: #FBC105;
+      --yellow-bright: #FFD23B;
+      --white: #ffffff;
+      --muted: #a3a3a3;
+      --dim: #6b6b6b;
+      --dimmer: #4a4a4a;
     }
 
+    html { scroll-behavior: smooth; }
     body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden;
+      background: var(--black); color: var(--white);
+      font-family: 'Manrope', -apple-system, system-ui, sans-serif;
+      min-height: 100vh; -webkit-font-smoothing: antialiased; overflow-x: hidden;
     }
+    a { text-decoration: none; color: inherit; }
 
-    /* Tactical backdrop */
-    body::before {
-      content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% -10%, rgba(127,200,255,0.06), transparent 70%),
-        radial-gradient(ellipse 60% 50% at 0% 100%, rgba(167,139,250,0.05), transparent 70%);
-    }
-    body::after {
-      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.4;
-      background-image:
-        linear-gradient(rgba(127,200,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(127,200,255,0.025) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 30%, transparent 85%);
-      -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 30%, transparent 85%);
-    }
-
-    a { color: var(--blue); text-decoration: none; }
-
-    .neon-line {
-      position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 101;
-      background: linear-gradient(90deg, transparent, #1E88E5 20%, #42A5F5 80%, transparent);
-    }
-
-    /* NAV */
+    /* ===== NAV ===== */
     .nav {
-      position: fixed; top: 2px; left: 0; right: 0; z-index: 100;
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      background: rgba(3,7,16,0.85);
-      border-bottom: 1px solid rgba(127,200,255,0.06);
-      padding: 0 24px; height: 56px;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line-soft);
+      height: 68px; padding: 0 clamp(16px, 4vw, 40px);
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-brand {
-      font-family: 'JetBrains Mono', monospace; font-weight: 700;
-      font-size: 17px; color: var(--blue); letter-spacing: 2px;
-      text-shadow: 0 0 30px rgba(127,200,255,0.25);
-    }
-    .nav-status {
-      display: flex; align-items: center; gap: 14px;
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: 0.06em; color: var(--muted); white-space: nowrap;
-    }
-    .nav-clock { color: var(--text); font-weight: 500; }
-    .online { display: flex; align-items: center; gap: 7px; text-transform: uppercase; }
-    .status-dot {
-      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-      background: var(--success); box-shadow: 0 0 10px rgba(74,222,128,0.7);
-      animation: pulse 2.4s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
-
-    .container { max-width: 1120px; margin: 0 auto; padding: 108px 22px 56px; }
-
-    /* HERO */
-    .hero { margin-bottom: 36px; }
-    .eyebrow {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: 0.4em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--blue); box-shadow: 0 0 8px rgba(127,200,255,0.5); }
-    .page-title {
-      font-family: 'JetBrains Mono', monospace; font-size: clamp(30px, 5vw, 46px);
-      font-weight: 700; letter-spacing: 0.03em; line-height: 1.02; margin-bottom: 12px;
-      background: linear-gradient(135deg, #7fc8ff, #a78bfa);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .page-subtitle { color: var(--muted); font-size: 14.5px; line-height: 1.6; max-width: 600px; }
-    .page-subtitle .accent { color: var(--gold); font-weight: 600; }
-
-    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-    .section-title {
-      font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase;
-      letter-spacing: 0.14em; color: var(--blue); display: flex; align-items: center; gap: 9px;
-    }
-    .section-title::before { content: "▸"; color: var(--dim); }
-    .section-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; }
-
-    /* GRID */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
-
-    .tool-card {
-      position: relative; display: flex; flex-direction: column; gap: 12px;
-      background: rgba(127,200,255,0.02); border: 1px solid rgba(127,200,255,0.06);
-      border-radius: 12px; padding: 22px; color: var(--text);
-      transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
-    }
-    .tool-card:hover {
-      border-color: rgba(127,200,255,0.3); background: rgba(127,200,255,0.05);
-      transform: translateY(-3px);
-      box-shadow: 0 22px 60px rgba(0,0,0,0.5), 0 0 40px rgba(127,200,255,0.05);
-    }
-    .tool-top { display: flex; align-items: flex-start; justify-content: space-between; }
-    .tool-icon {
-      width: 48px; height: 48px; border-radius: 12px;
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 9px; background: var(--yellow);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px;
-      border: 1px solid transparent;
+      font-weight: 800; font-size: 15px; color: #000; letter-spacing: -0.5px;
     }
-    .icon-drive { background: linear-gradient(135deg, rgba(52,168,83,0.25), rgba(24,128,56,0.15)); border-color: rgba(74,222,128,0.3); color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.15); }
-    .icon-html  { background: linear-gradient(135deg, rgba(244,101,41,0.2), rgba(228,77,38,0.12)); border-color: rgba(251,146,60,0.3); color: #fb923c; box-shadow: 0 0 20px rgba(244,101,41,0.12); }
-    .icon-py    { background: linear-gradient(135deg, rgba(55,118,171,0.25), rgba(255,212,59,0.12)); border-color: rgba(56,189,248,0.3); color: #38bdf8; box-shadow: 0 0 20px rgba(55,118,171,0.15); }
-    .icon-note  { background: linear-gradient(135deg, rgba(192,132,252,0.25), rgba(99,102,241,0.15)); border-color: rgba(192,132,252,0.3); color: #c084fc; box-shadow: 0 0 20px rgba(192,132,252,0.15); }
-
-    .tool-name { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: 0.02em; }
-    .tool-card:hover .tool-name { color: var(--blue); }
-    .tool-desc { font-size: 13px; line-height: 1.55; color: var(--muted); flex: 1; }
-    .tool-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-
-    .badge {
-      display: inline-block; padding: 3px 10px; border-radius: 6px;
-      font-size: 11px; font-weight: 600; font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.04em; text-transform: uppercase;
+    .brand-name { font-weight: 800; font-size: 17px; letter-spacing: -0.2px; }
+    .brand-name span { color: var(--muted); font-weight: 600; }
+    .nav-right { display: flex; align-items: center; gap: 22px; }
+    .nav-links { display: flex; gap: 22px; }
+    .nav-links a { font-size: 14px; font-weight: 600; color: var(--muted); transition: color 0.18s; }
+    .nav-links a:hover { color: var(--white); }
+    .btn-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--yellow); color: #000; font-weight: 700; font-size: 14px;
+      padding: 11px 22px; border-radius: 999px; border: none; cursor: pointer;
+      transition: transform 0.15s, background 0.18s, box-shadow 0.18s;
     }
-    .badge-drive { background: rgba(74,222,128,0.12); color: #4ade80; }
-    .badge-html  { background: rgba(251,146,60,0.12);  color: #fb923c; }
-    .badge-py    { background: rgba(56,189,248,0.12);  color: #38bdf8; }
-    .badge-note  { background: rgba(192,132,252,0.12); color: #c084fc; }
+    .btn-pill:hover { background: var(--yellow-bright); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(251,193,5,0.25); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--white); font-weight: 600; font-size: 14px;
+      padding: 11px 22px; border-radius: 999px; border: 1px solid var(--line);
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .btn-ghost:hover { border-color: #3a3a3a; background: var(--surface); }
 
-    .arrow { font-family: 'JetBrains Mono', monospace; color: var(--dim); font-size: 18px; transition: transform 0.2s, color 0.2s; }
-    .tool-card:hover .arrow { transform: translateX(4px); color: var(--blue); }
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; max-width: 1180px; margin: 0 auto;
+      padding: clamp(56px, 10vw, 110px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 72px);
+    }
+    .hero::before {
+      content: ""; position: absolute; top: -10%; right: -5%; width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(251,193,5,0.1), transparent 68%);
+      pointer-events: none; filter: blur(10px);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--yellow);
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: var(--yellow); border-radius: 2px; }
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 86px); font-weight: 800; line-height: 0.98;
+      letter-spacing: -0.03em; margin-bottom: 22px;
+    }
+    .hero h1 .y { color: var(--yellow); }
+    .hero p {
+      font-size: clamp(15px, 2vw, 18px); color: var(--muted); max-width: 560px;
+      line-height: 1.6; margin-bottom: 34px; font-weight: 500;
+    }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
 
-    .ext {
-      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--dimmer);
-      border: 1px solid rgba(127,200,255,0.1); border-radius: 5px; padding: 2px 7px;
+    /* big watermark word */
+    .watermark {
+      position: absolute; right: clamp(16px, 4vw, 40px); bottom: -24px; z-index: 0;
+      font-size: clamp(44px, 9vw, 104px); font-weight: 800; letter-spacing: -0.04em;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.05); pointer-events: none;
+      user-select: none; line-height: 1;
     }
 
-    .foot {
-      margin-top: 44px; padding-top: 20px; border-top: 1px solid rgba(127,200,255,0.06);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-      font-family: 'JetBrains Mono', monospace; font-size: 10px;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer);
+    /* ===== TOOLS ===== */
+    .section { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) clamp(56px, 8vw, 96px); }
+    .section-head {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+      margin-bottom: 26px; flex-wrap: wrap;
     }
-    .foot .v { color: var(--dim); }
+    .section-head h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 800; letter-spacing: -0.02em; }
+    .section-head p { color: var(--muted); font-size: 14px; font-weight: 500; margin-top: 6px; }
+    .section-count { font-size: 13px; font-weight: 700; color: var(--dim); letter-spacing: 0.04em; }
 
-    @media (max-width: 768px) {
-      .container { padding: 96px 14px 32px; }
+    /* Tabs */
+    .tabs { display: flex; gap: 26px; margin-bottom: 24px; border-bottom: 1px solid var(--line-soft); }
+    .tab {
+      background: none; border: none; font-family: inherit; cursor: pointer;
+      color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
+      padding: 10px 2px; position: relative; transition: color 0.18s;
+    }
+    .tab:hover { color: var(--white); }
+    .tab.active { color: var(--white); }
+    .tab.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--yellow); border-radius: 2px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: tabfade 0.25s ease; }
+    @keyframes tabfade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 16px; }
+
+    .card {
+      position: relative; display: flex; flex-direction: column; gap: 16px;
+      background: var(--surface); border: 1px solid var(--line-soft);
+      border-radius: 18px; padding: 26px 24px; min-height: 214px;
+      transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .card:hover {
+      border-color: #333; background: var(--surface-2); transform: translateY(-4px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+    .card:hover::after {
+      content: ""; position: absolute; inset: 0; border-radius: 18px; pointer-events: none;
+      border: 1px solid rgba(251,193,5,0.4);
+      box-shadow: 0 0 0 1px rgba(251,193,5,0.12), 0 0 40px rgba(251,193,5,0.08);
+    }
+    .card-icon {
+      width: 50px; height: 50px; border-radius: 13px;
+      background: var(--surface-2); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 17px; color: var(--white); transition: all 0.25s;
+    }
+    .card:hover .card-icon { background: var(--yellow); color: #000; border-color: var(--yellow); }
+    .card-body { flex: 1; }
+    .card h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 7px; }
+    .card p { font-size: 13.5px; color: var(--muted); line-height: 1.55; font-weight: 500; }
+    .card-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 4px; border-top: 1px solid var(--line-soft); margin-top: 2px;
+    }
+    .card-tag { font-size: 12px; font-weight: 600; color: var(--dim); }
+    .card-open {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: var(--muted); transition: color 0.2s, gap 0.2s;
+    }
+    .card:hover .card-open { color: var(--yellow); gap: 11px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--line-soft);
+      max-width: 1180px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 40px);
+      display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+      color: var(--dim); font-size: 13px; font-weight: 500;
+    }
+    footer .brand-sm { display: flex; align-items: center; gap: 9px; font-weight: 700; color: var(--muted); }
+    footer .dot { width: 20px; height: 20px; border-radius: 5px; background: var(--yellow); display: inline-flex; align-items: center; justify-content: center; color: #000; font-weight: 800; font-size: 10px; }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .watermark { display: none; }
       .grid { grid-template-columns: 1fr; }
-      .nav-status .nav-clock { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="neon-line"></div>
 
   <nav class="nav">
-    <a href="/" class="nav-brand">banco_premium_</a>
-    <div class="nav-status">
-      <span class="nav-clock" id="clock">--:--:--</span>
-      <span class="online"><span class="status-dot"></span>System Online</span>
+    <div class="brand">
+      <div class="logo-mark">rs</div>
+      <div class="brand-name">Royal <span>Stone</span></div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#ferramentas" data-tab="ferramentas">Ferramentas</a>
+        <a href="#ferramentas" data-tab="nuvem">Nuvem</a>
+      </div>
+      <a class="btn-pill" href="https://drive.google.com/drive/folders/1pEVfZYONCxzb1RhwEdauRVSmJnTBOBkk?usp=drive_link" target="_blank" rel="noopener">Acessar projeto</a>
     </div>
   </nav>
 
-  <div class="container">
+  <header class="hero">
+    <span class="eyebrow">Crachá Engineer · Hub Premium</span>
+    <h1>Seu hub de<br>ferramentas<span class="y">.</span></h1>
+    <p>Acesso rápido ao projeto, editores online e base de conhecimento — tudo incluso no Crachá Engineer, reunido em um só lugar.</p>
+    <div class="hero-cta">
+      <a class="btn-pill" href="https://drive.google.com/drive/folders/1pEVfZYONCxzb1RhwEdauRVSmJnTBOBkk?usp=drive_link" target="_blank" rel="noopener">Abrir projeto no Drive &#8594;</a>
+      <a class="btn-ghost" href="#ferramentas">Ver ferramentas</a>
+    </div>
+    <div class="watermark">ROYAL STONE</div>
+  </header>
 
-    <header class="hero">
-      <div class="eyebrow">Hub Premium · Crachá Engineer</div>
-      <h1 class="page-title">BANCO PREMIUM</h1>
-      <p class="page-subtitle">
-        Central de ferramentas e recursos inclusos no <span class="accent">Crachá Engineer</span>.
-        Acesso rápido ao projeto, editores online e base de conhecimento.
-      </p>
-    </header>
-
+  <section class="section" id="ferramentas">
     <div class="section-head">
-      <div class="section-title">Ferramentas &amp; Recursos</div>
-      <div class="section-meta">4 itens</div>
+      <div>
+        <h2>Ferramentas &amp; Recursos</h2>
+        <p>Atalhos diretos para os recursos do projeto.</p>
+      </div>
     </div>
 
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="ferramentas">Ferramentas</button>
+      <button class="tab" data-tab="nuvem">Nuvem</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-ferramentas">
+    <div class="grid" id="recursos">
+
+      <a class="card" href="https://drive.google.com/drive/folders/1pEVfZYONCxzb1RhwEdauRVSmJnTBOBkk?usp=drive_link" target="_blank" rel="noopener">
+        <div class="card-icon">D</div>
+        <div class="card-body">
+          <h3>Spider Project</h3>
+          <p>Pasta completa do projeto no Google Drive.</p>
+        </div>
+        <div class="card-foot">
+          <span class="card-tag">Google Drive</span>
+          <span class="card-open">Abrir &#8594;</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://onecompiler.com/html" target="_blank" rel="noopener">
+        <div class="card-icon">&lt;/&gt;</div>
+        <div class="card-body">
+          <h3>Ferramenta HTML</h3>
+          <p>Editor online para escrever e testar código HTML no navegador.</p>
+        </div>
+        <div class="card-foot">
+          <span class="card-tag">OneCompiler</span>
+          <span class="card-open">Abrir &#8594;</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://pythononline.net/" target="_blank" rel="noopener">
+        <div class="card-icon">Py</div>
+        <div class="card-body">
+          <h3>Ferramenta Python</h3>
+          <p>Compilador e interpretador online para executar código Python.</p>
+        </div>
+        <div class="card-foot">
+          <span class="card-tag">Python Online</span>
+          <span class="card-open">Abrir &#8594;</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://notebook.google.com/notebook/b8486376-ff44-47c8-a176-8a22ffd5edd0" target="_blank" rel="noopener">
+        <div class="card-icon">N</div>
+        <div class="card-body">
+          <h3>Google Notebook</h3>
+          <p>Bloco de notas do projeto no Google NotebookLM.</p>
+        </div>
+        <div class="card-foot">
+          <span class="card-tag">NotebookLM</span>
+          <span class="card-open">Abrir &#8594;</span>
+        </div>
+      </a>
+
+    </div>
+    </div>
+
+    <div class="tab-panel" id="panel-nuvem">
     <div class="grid">
 
-      <a class="tool-card" href="https://drive.google.com/drive/folders/1pEVfZYONCxzb1RhwEdauRVSmJnTBOBkk?usp=drive_link" target="_blank" rel="noopener">
-        <div class="tool-top">
-          <div class="tool-icon icon-drive">D</div>
-          <span class="ext">abre externo ↗</span>
+      <a class="card" href="https://drive.google.com/drive/folders/1FVIDFrCotkRISgFzIno8EZQzi8M5Kj8x?usp=drive_link" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.5h10a4 4 0 0 0 .7-7.94A5.5 5.5 0 0 0 6.6 8.3 4 4 0 0 0 7 18.5Z"/></svg>
         </div>
-        <div class="tool-name">Spider Project</div>
-        <div class="tool-desc">Acessar a pasta completa do projeto no Google Drive.</div>
-        <div class="tool-footer">
-          <span class="badge badge-drive">google drive</span>
-          <span class="arrow">&#8594;</span>
+        <div class="card-body">
+          <h3>Nuvem</h3>
+          <p>Pasta de arquivos e backups na nuvem (Google Drive).</p>
         </div>
-      </a>
-
-      <a class="tool-card" href="https://onecompiler.com/html" target="_blank" rel="noopener">
-        <div class="tool-top">
-          <div class="tool-icon icon-html">&lt;/&gt;</div>
-          <span class="ext">abre externo ↗</span>
-        </div>
-        <div class="tool-name">Ferramenta HTML</div>
-        <div class="tool-desc">Editor online para escrever e testar código HTML direto no navegador.</div>
-        <div class="tool-footer">
-          <span class="badge badge-html">onecompiler</span>
-          <span class="arrow">&#8594;</span>
-        </div>
-      </a>
-
-      <a class="tool-card" href="https://pythononline.net/" target="_blank" rel="noopener">
-        <div class="tool-top">
-          <div class="tool-icon icon-py">Py</div>
-          <span class="ext">abre externo ↗</span>
-        </div>
-        <div class="tool-name">Ferramenta Python</div>
-        <div class="tool-desc">Compilador e interpretador online para executar código Python.</div>
-        <div class="tool-footer">
-          <span class="badge badge-py">python online</span>
-          <span class="arrow">&#8594;</span>
-        </div>
-      </a>
-
-      <a class="tool-card" href="https://notebook.google.com/notebook/b8486376-ff44-47c8-a176-8a22ffd5edd0" target="_blank" rel="noopener">
-        <div class="tool-top">
-          <div class="tool-icon icon-note">N</div>
-          <span class="ext">abre externo ↗</span>
-        </div>
-        <div class="tool-name">Google Notebook</div>
-        <div class="tool-desc">Acessar o bloco de notas do projeto no Google NotebookLM.</div>
-        <div class="tool-footer">
-          <span class="badge badge-note">notebooklm</span>
-          <span class="arrow">&#8594;</span>
+        <div class="card-foot">
+          <span class="card-tag">Google Drive</span>
+          <span class="card-open">Abrir &#8594;</span>
         </div>
       </a>
 
     </div>
+    </div>
+  </section>
 
-    <footer class="foot">
-      <div>© 2026 Banco Premium — Todos os direitos reservados</div>
-      <div class="v">cyber-garage // v2.0</div>
-    </footer>
-  </div>
+  <footer>
+    <div class="brand-sm"><span class="dot">rs</span>Royal Stone</div>
+    <div>© 2026 · Crachá Engineer</div>
+  </footer>
 
   <script>
-    function tick() {
-      var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
-      var el = document.getElementById('clock');
-      if (el) el.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
-    }
-    tick(); setInterval(tick, 1000);
+    (function () {
+      function activate(name) {
+        document.querySelectorAll('.tab').forEach(function (t) { t.classList.toggle('active', t.dataset.tab === name); });
+        document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.toggle('active', p.id === 'panel-' + name); });
+      }
+      document.querySelectorAll('[data-tab]').forEach(function (el) {
+        el.addEventListener('click', function () { activate(el.dataset.tab); });
+      });
+    })();
   </script>
+
 </body>
 </html>
